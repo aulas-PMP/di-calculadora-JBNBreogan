@@ -44,6 +44,9 @@ public class MarcoCalculadora extends JFrame {
         LaminaCalculadora laminaNums = new LaminaCalculadora();
         LaminaCalculadora laminaSimbs = new LaminaCalculadora();
 
+        laminaNums.setLayout(new GridLayout(3,3));
+        laminaSimbs.setLayout(new GridLayout(5,1));
+
         JButton btn0 = new JButton("0");
         JButton btn1 = new JButton("1");
         JButton btn2 = new JButton("2");
@@ -79,9 +82,18 @@ public class MarcoCalculadora extends JFrame {
 
         add(laminaNums);
         add(laminaSimbs);
+
         this.setVisible(true);
 
         ActionListener numListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String value = ((JButton) e.getSource()).getText();
+                escritura.setText(escritura.getText()+value);
+            }
+        };
+
+        ActionListener operatorListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String value = ((JButton) e.getSource()).getText();
