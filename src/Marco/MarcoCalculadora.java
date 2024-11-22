@@ -2,16 +2,15 @@ package Marco;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.border.Border;
+
 
 import lamina.LaminaCalculadora;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +27,8 @@ public class MarcoCalculadora extends JFrame {
         int altoPantalla = tamano.height;
         setSize(anchoPantalla/2,600);
         setLocation(anchoPantalla/4,altoPantalla/4);
-        this.setVisible(true);
+        setLayout(new GridLayout(8,8));
+        
         setTitle("Calculadora - Breogán Fernández Tacón");
 
         escritura = new JTextField();
@@ -38,8 +38,8 @@ public class MarcoCalculadora extends JFrame {
         resultado.setFont(new Font("Courier new", Font.PLAIN, 24));
         escritura.setFont(new Font("Courier new", Font.PLAIN, 24));
 
-        //add(resultado, BorderLayout.NORTH);
-        add(escritura, BorderLayout.NORTH);
+        add(resultado);
+        add(escritura);
 
         LaminaCalculadora laminaNums = new LaminaCalculadora();
         LaminaCalculadora laminaSimbs = new LaminaCalculadora();
@@ -58,6 +58,7 @@ public class MarcoCalculadora extends JFrame {
         JButton btnRest = new JButton("-");
         JButton btnDiv = new JButton("/");
         JButton btnMult = new JButton("*");
+        JButton btnEqu = new JButton("=");
 
         laminaNums.add(btn0);
         laminaNums.add(btn1);
@@ -74,9 +75,11 @@ public class MarcoCalculadora extends JFrame {
         laminaSimbs.add(btnRest);
         laminaSimbs.add(btnMult);
         laminaSimbs.add(btnDiv);
+        laminaSimbs.add(btnEqu);
 
-        add(laminaNums, BorderLayout.CENTER);
-        add(laminaSimbs, BorderLayout.SOUTH);
+        add(laminaNums);
+        add(laminaSimbs);
+        this.setVisible(true);
 
         ActionListener numListener = new ActionListener() {
             @Override
@@ -98,6 +101,7 @@ public class MarcoCalculadora extends JFrame {
         btn9.addActionListener(numListener);
 
         btnDiv.addActionListener(numListener);
+        
         
     } 
 }
