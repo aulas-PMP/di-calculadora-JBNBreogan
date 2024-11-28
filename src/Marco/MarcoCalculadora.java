@@ -19,30 +19,40 @@ public class MarcoCalculadora extends JFrame {
         int altoPantalla = tamano.height;
         setSize(anchoPantalla / 2, 600);
         setLocation(anchoPantalla / 4, altoPantalla / 4);
+        setBackground(Color.DARK_GRAY);
 
         setTitle("Calculadora - Breogán Fernández Tacón");
 
-        setLayout(new BorderLayout(10, 10)); // BorderLayout con un pequeño margen entre componentes
+        setLayout(new BorderLayout(10, 10));
 
-        JPanel display = new JPanel(new GridLayout(2, 1, 5, 5)); // GridLayout de 2 filas, 1 columna
+        JPanel display = new JPanel(new GridLayout(2, 1, 5, 5));
         display.setPreferredSize(new Dimension(400, 150));
 
         escritura = new JTextField();
         resultado = new JTextField();
         escritura.setEditable(false);
         resultado.setEditable(false);
+        escritura.setBackground(Color.darkGray);
+        escritura.setForeground(Color.WHITE);
+        escritura.setBorder(null);
         escritura.setFont(new Font("Courier new", Font.PLAIN, 30));
         resultado.setFont(new Font("Courier new", Font.PLAIN, 30));
         escritura.setHorizontalAlignment(JTextField.RIGHT);
         resultado.setHorizontalAlignment(JTextField.RIGHT);
+        resultado.setBorder(null);
+        resultado.setBackground(Color.DARK_GRAY);
+        resultado.setForeground(Color.WHITE);
 
         display.add(escritura);
         display.add(resultado);
+        display.setBackground(Color.darkGray);
         add(display, BorderLayout.NORTH); // Colocarlo en la parte superior de la ventana (Norte)
 
         panelNumeros = new JPanel();
         panelNumeros.setLayout(new GridLayout(4, 3, 10, 10)); // 4 filas y 3 columnas para los números
         panelNumeros.setPreferredSize(new Dimension(300, 400));
+        panelNumeros.setBackground(Color.darkGray);
+        
 
         JButton btn0 = new JButton("0");
         JButton btn1 = new JButton("1");
@@ -56,6 +66,19 @@ public class MarcoCalculadora extends JFrame {
         JButton btn9 = new JButton("9");
         JButton btnDec = new JButton(".");
         JButton btnCl = new JButton("C");
+
+        btn0.setBackground(Color.WHITE);
+        btn1.setBackground(Color.WHITE);
+        btn2.setBackground(Color.WHITE);
+        btn3.setBackground(Color.WHITE);
+        btn4.setBackground(Color.WHITE);
+        btn5.setBackground(Color.WHITE);
+        btn6.setBackground(Color.WHITE);
+        btn7.setBackground(Color.WHITE);
+        btn8.setBackground(Color.WHITE);
+        btn9.setBackground(Color.WHITE);
+        btnDec.setBackground(Color.WHITE);
+        btnCl.setBackground(Color.WHITE);
 
 
         panelNumeros.add(btn7);
@@ -75,6 +98,7 @@ public class MarcoCalculadora extends JFrame {
         panelOperadores = new JPanel();
         panelOperadores.setLayout(new GridLayout(5, 1, 10, 10)); 
         panelOperadores.setPreferredSize(new Dimension(100, 400));
+        panelOperadores.setBackground(Color.darkGray);
 
 
         JButton btnSum = new JButton("+");
@@ -83,6 +107,11 @@ public class MarcoCalculadora extends JFrame {
         JButton btnMult = new JButton("*");
         JButton btnEqu = new JButton("=");
 
+        btnSum.setBackground(Color.white);
+        btnRest.setBackground(Color.white);
+        btnMult.setBackground(Color.white);
+        btnEqu.setBackground(Color.white);
+        btnDiv.setBackground(Color.white);
  
         panelOperadores.add(btnSum);
         panelOperadores.add(btnRest);
@@ -94,6 +123,7 @@ public class MarcoCalculadora extends JFrame {
         panelCentro.setLayout(new BorderLayout(10, 10));
         panelCentro.add(panelNumeros, BorderLayout.CENTER); 
         panelCentro.add(panelOperadores, BorderLayout.EAST); 
+        panelCentro.setBackground(Color.darkGray);
 
         add(panelCentro, BorderLayout.CENTER);
 
