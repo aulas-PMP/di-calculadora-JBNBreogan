@@ -2,10 +2,8 @@ package Marco;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-
-import lamina.LaminaCalculadora;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,6 +17,8 @@ public class MarcoCalculadora extends JFrame {
 
     private JTextField resultado;
     private JTextField escritura;
+    private JPanel numeros;
+    private JPanel operadores;
 
     public MarcoCalculadora(){
         Toolkit mipantalla = Toolkit.getDefaultToolkit();
@@ -27,7 +27,11 @@ public class MarcoCalculadora extends JFrame {
         int altoPantalla = tamano.height;
         setSize(anchoPantalla/2,600);
         setLocation(anchoPantalla/4,altoPantalla/4);
-        setLayout(new GridLayout(8,8));
+
+
+        JPanel display = new JPanel(new GridLayout(3,1));
+        numeros = new JPanel(new GridLayout(4,3));
+        operadores = new JPanel(new GridLayout(6,1));
         
         setTitle("Calculadora - Breogán Fernández Tacón");
 
@@ -38,14 +42,8 @@ public class MarcoCalculadora extends JFrame {
         resultado.setFont(new Font("Courier new", Font.PLAIN, 24));
         escritura.setFont(new Font("Courier new", Font.PLAIN, 24));
 
-        add(resultado);
-        add(escritura);
-
-        LaminaCalculadora laminaNums = new LaminaCalculadora();
-        LaminaCalculadora laminaSimbs = new LaminaCalculadora();
-
-        laminaNums.setLayout(new GridLayout(3,3));
-        laminaSimbs.setLayout(new GridLayout(5,1));
+        display.add(escritura);
+        display.add(resultado);
 
         JButton btn0 = new JButton("0");
         JButton btn1 = new JButton("1");
@@ -62,26 +60,31 @@ public class MarcoCalculadora extends JFrame {
         JButton btnDiv = new JButton("/");
         JButton btnMult = new JButton("*");
         JButton btnEqu = new JButton("=");
+        JButton btnCl = new JButton("C");
 
-        laminaNums.add(btn0);
-        laminaNums.add(btn1);
-        laminaNums.add(btn2);
-        laminaNums.add(btn3);
-        laminaNums.add(btn4);
-        laminaNums.add(btn5);
-        laminaNums.add(btn6);
-        laminaNums.add(btn7);
-        laminaNums.add(btn8);
-        laminaNums.add(btn9);
+        numeros.add(btn0);
+        numeros.add(btn1);
+        numeros.add(btn2);
+        numeros.add(btn3);
+        numeros.add(btn4);
+        numeros.add(btn5);
+        numeros.add(btn6);
+        numeros.add(btn7);
+        numeros.add(btn8);
+        numeros.add(btn9);
+        numeros.add(btnCl);
 
-        laminaSimbs.add(btnSum);
-        laminaSimbs.add(btnRest);
-        laminaSimbs.add(btnMult);
-        laminaSimbs.add(btnDiv);
-        laminaSimbs.add(btnEqu);
+        operadores.add(btnSum);
+        operadores.add(btnRest);
+        operadores.add(btnMult);
+        operadores.add(btnDiv);
+        operadores.add(btnEqu);
 
-        add(laminaNums);
-        add(laminaSimbs);
+        display.add(numeros);
+        display.add(operadores);
+
+
+        add(display);
 
         this.setVisible(true);
 
@@ -112,7 +115,7 @@ public class MarcoCalculadora extends JFrame {
         btn8.addActionListener(numListener);
         btn9.addActionListener(numListener);
 
-        btnDiv.addActionListener(numListener);
+        btnDiv.addActionListener(operatorListener);
         
         
     } 
