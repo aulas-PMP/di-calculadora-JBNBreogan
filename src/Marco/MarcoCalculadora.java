@@ -12,7 +12,12 @@ public class MarcoCalculadora extends JFrame {
     private JPanel panelNumeros;
     private JPanel panelOperadores;
 
+    private double num1 = 0;
+    private String operando = "";
+
     public MarcoCalculadora() {
+        
+
         Toolkit mipantalla = Toolkit.getDefaultToolkit();
         Dimension tamano = mipantalla.getScreenSize();
         int anchoPantalla = tamano.width;
@@ -40,7 +45,7 @@ public class MarcoCalculadora extends JFrame {
         escritura.setHorizontalAlignment(JTextField.RIGHT);
         resultado.setHorizontalAlignment(JTextField.RIGHT);
         resultado.setBorder(null);
-        resultado.setBackground(Color.DARK_GRAY);
+        resultado.setBackground(Color.LIGHT_GRAY);
         resultado.setForeground(Color.WHITE);
 
         display.add(escritura);
@@ -80,6 +85,19 @@ public class MarcoCalculadora extends JFrame {
         btnDec.setBackground(Color.WHITE);
         btnCl.setBackground(Color.WHITE);
 
+        btn0.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn1.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn2.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn3.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn4.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn5.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn6.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn7.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn8.setFont(new Font("Courier New", Font.BOLD, 30));
+        btn9.setFont(new Font("Courier New", Font.BOLD, 30));
+        btnDec.setFont(new Font("Courier New", Font.BOLD, 30));
+        btnCl.setFont(new Font("Courier New", Font.BOLD, 30));
+
 
         panelNumeros.add(btn7);
         panelNumeros.add(btn8);
@@ -106,6 +124,12 @@ public class MarcoCalculadora extends JFrame {
         JButton btnDiv = new JButton("/");
         JButton btnMult = new JButton("*");
         JButton btnEqu = new JButton("=");
+
+        btnSum.setFont(new Font("Courier New", Font.BOLD, 25));
+        btnRest.setFont(new Font("Courier New", Font.BOLD, 25));
+        btnDiv.setFont(new Font("Courier New", Font.BOLD, 25));
+        btnMult.setFont(new Font("Courier New", Font.BOLD, 25));
+        btnEqu.setFont(new Font("Courier New", Font.BOLD, 25));
 
         btnSum.setBackground(Color.white);
         btnRest.setBackground(Color.white);
@@ -143,9 +167,16 @@ public class MarcoCalculadora extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String value = ((JButton) e.getSource()).getText();
-                escritura.setText(escritura.getText() + value);
+
+                if (value.equals("C")){
+                    escritura.setText("");
+                    resultado.setText(""); 
+                    num1 = 0; 
+                    operando = "";
+                } else if (value.equals("="))
             }
         };
+        
 
         btn0.addActionListener(numListener);
         btn1.addActionListener(numListener);
