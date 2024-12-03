@@ -12,7 +12,8 @@ public class MarcoCalculadora extends JFrame {
     private JPanel panelNumeros;
     private JPanel panelOperadores;
 
-    private double num1 = 0;
+    private Double num1 = 0.0;
+    private Double num2 = 0.0;
     private String operando = "";
 
     public MarcoCalculadora() {
@@ -167,13 +168,27 @@ public class MarcoCalculadora extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String value = ((JButton) e.getSource()).getText();
-
-                if (value.equals("C")){
+                
+                if (value.equals("C")) {
                     escritura.setText("");
-                    resultado.setText(""); 
-                    num1 = 0; 
+                    resultado.setText("");
+                    num1 = 0.0;
                     operando = "";
-                } else if (value.equals("="))
+                    return;
+                }
+
+                if (value.equals("=")) {
+                    calcular();
+                    return;
+                }
+
+                if (operando.equals("")){
+                    if (!escritura.getText().isEmpty()) {
+                        num1 = Double.parseDouble(escritura.getText());
+                        operando = value;
+                        escritura.setText(escritura.getText() + value);
+                    }
+                }      
             }
         };
         
@@ -195,6 +210,57 @@ public class MarcoCalculadora extends JFrame {
         btnMult.addActionListener(operatorListener);
         btnEqu.addActionListener(operatorListener);
         btnCl.addActionListener(operatorListener);
+        
+    }
+
+    private void calcular() {
+        try {
+            // Check if the input contains the operator and valid format
+            if (!escritura.getText().contains(operando)) {
+                resultado.setText("Error");
+                return;
+            }
+    
+            // Split the input string into operands
+            String[] partes = escritura.getText().split("\\" + operando);
+            if (partes.length < 2 || partes[1].trim().isEmpty()) {
+                resultado.setText("Error");
+                return;
+            }
+    
+            num2 = Double.parseDouble(partes[1].trim());
+    
+            double result = 0;
+    
+            switch (operando) {
+                case "+":
+                    result = num1 + num2;
+                    break;
+                case "-":
+                    result = num1 - num2;
+                    break;
+                case "*":
+                    result = num1 * num2;
+                    break;
+                case "/":
+                    if (num2 == 0) {  
+                        resultado.setText("Syntax Error");
+                        return; 
+                    } else {
+                        result = num1 / num2; 
+                    }
+                    break;
+                default:
+                    resultado.setText("Operador inválido");
+                    return;
+            }
+            
+            resultado.setText(String.valueOf(result).replace('.', ',')); 
+        } catch (NumberFormatException e) {
+            resultado.setText("Entrada inválida"); 
+        } catch (Exception e) {
+            resultado.setText("Error inesperado"); 
+        }
     }
 }
 
