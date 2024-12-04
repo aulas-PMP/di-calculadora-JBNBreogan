@@ -83,18 +83,21 @@ public class MarcoCalculadora extends JFrame {
                 // Detectar operadores básicos del numpad
                 else if (keyCode == KeyEvent.VK_ADD) {
                     escritura.setText(escritura.getText() + "+");
+                    operando = "+";
                 } else if (keyCode == KeyEvent.VK_SUBTRACT) {
                     escritura.setText(escritura.getText() + "-");
+                    operando = "-";
                 } else if (keyCode == KeyEvent.VK_MULTIPLY) {
                     escritura.setText(escritura.getText() + "*");
+                    operando = "*";
                 } else if (keyCode == KeyEvent.VK_DIVIDE) {
                     escritura.setText(escritura.getText() + "/");
+                    operando = "/";
                 } else if (keyCode == KeyEvent.VK_DECIMAL) {
                     escritura.setText(escritura.getText() + ".");
                 } else if (keyCode == KeyEvent.VK_ENTER) {
-                    calcular(); // Calcular resultado
+                    calcular();
                 } else if (keyCode == KeyEvent.VK_BACK_SPACE && escritura.getText().length() > 0) {
-                    // Borrar último carácter
                     escritura.setText(escritura.getText().substring(0, escritura.getText().length() - 1));
                 }
             }
@@ -224,7 +227,6 @@ public class MarcoCalculadora extends JFrame {
 
                 if (operando.equals("")){
                     if (!escritura.getText().isEmpty()) {
-                        num1 = Double.parseDouble(escritura.getText());
                         operando = value;
                         escritura.setText(String.valueOf(escritura.getText() + value).replace('.', ','));
                     }
@@ -266,6 +268,8 @@ public class MarcoCalculadora extends JFrame {
                 resultado.setText("Error");
                 return;
             }
+
+            num1 = Double.parseDouble(partes[0].trim());
     
             num2 = Double.parseDouble(partes[1].trim());
     
@@ -315,7 +319,7 @@ public class MarcoCalculadora extends JFrame {
                 setMouseMode(false);
                 setKeyboardMode(true);
                 break;
-            default: // "Modo libre"
+            default:
                 setMouseMode(true);
                 setKeyboardMode(true);
                 break;
@@ -323,7 +327,6 @@ public class MarcoCalculadora extends JFrame {
     }
 
     private void setMouseMode(boolean enabled) {
-        // Habilita/deshabilita los botones
         for (Component component : panelNumeros.getComponents()) {
             component.setEnabled(enabled);
         }
@@ -333,7 +336,6 @@ public class MarcoCalculadora extends JFrame {
     }
 
     private void setKeyboardMode(boolean enabled) {
-        // Habilita/deshabilita entrada del teclado
         escritura.setFocusable(enabled);
         if (enabled) {
             escritura.requestFocus();
