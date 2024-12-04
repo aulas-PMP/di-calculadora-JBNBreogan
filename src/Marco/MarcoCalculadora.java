@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MarcoCalculadora extends JFrame {
 
@@ -11,6 +13,8 @@ public class MarcoCalculadora extends JFrame {
     private JTextField escritura;
     private JPanel panelNumeros;
     private JPanel panelOperadores;
+
+    private JComboBox<String> modeSelector;
 
     private Double num1 = 0.0;
     private Double num2 = 0.0;
@@ -59,6 +63,42 @@ public class MarcoCalculadora extends JFrame {
         panelNumeros.setPreferredSize(new Dimension(300, 400));
         panelNumeros.setBackground(Color.darkGray);
         
+        String[] modes = {"Modo libre", "Solo ratón", "Solo teclado"};
+        modeSelector = new JComboBox<>(modes);
+        modeSelector.setFont(new Font("Courier New", Font.BOLD, 16));
+        add(modeSelector, BorderLayout.SOUTH); // Añadir al panel
+
+        modeSelector.addActionListener(e -> updateMode());
+
+        escritura.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+        
+                // Detectar teclas numéricas del numpad
+                if (keyCode >= KeyEvent.VK_NUMPAD0 && keyCode <= KeyEvent.VK_NUMPAD9) {
+                    int numpadValue = keyCode - KeyEvent.VK_NUMPAD0;
+                    escritura.setText(escritura.getText() + numpadValue);
+                } 
+                // Detectar operadores básicos del numpad
+                else if (keyCode == KeyEvent.VK_ADD) {
+                    escritura.setText(escritura.getText() + "+");
+                } else if (keyCode == KeyEvent.VK_SUBTRACT) {
+                    escritura.setText(escritura.getText() + "-");
+                } else if (keyCode == KeyEvent.VK_MULTIPLY) {
+                    escritura.setText(escritura.getText() + "*");
+                } else if (keyCode == KeyEvent.VK_DIVIDE) {
+                    escritura.setText(escritura.getText() + "/");
+                } else if (keyCode == KeyEvent.VK_DECIMAL) {
+                    escritura.setText(escritura.getText() + ".");
+                } else if (keyCode == KeyEvent.VK_ENTER) {
+                    calcular(); // Calcular resultado
+                } else if (keyCode == KeyEvent.VK_BACK_SPACE && escritura.getText().length() > 0) {
+                    // Borrar último carácter
+                    escritura.setText(escritura.getText().substring(0, escritura.getText().length() - 1));
+                }
+            }
+        });
 
         JButton btn0 = new JButton("0");
         JButton btn1 = new JButton("1");
@@ -186,7 +226,7 @@ public class MarcoCalculadora extends JFrame {
                     if (!escritura.getText().isEmpty()) {
                         num1 = Double.parseDouble(escritura.getText());
                         operando = value;
-                        escritura.setText(escritura.getText() + value);
+                        escritura.setText(String.valueOf(escritura.getText() + value).replace('.', ','));
                     }
                 }      
             }
@@ -210,18 +250,17 @@ public class MarcoCalculadora extends JFrame {
         btnMult.addActionListener(operatorListener);
         btnEqu.addActionListener(operatorListener);
         btnCl.addActionListener(operatorListener);
+        btnDec.addActionListener(numListener);
         
     }
 
     private void calcular() {
         try {
-            // Check if the input contains the operator and valid format
             if (!escritura.getText().contains(operando)) {
                 resultado.setText("Error");
                 return;
             }
     
-            // Split the input string into operands
             String[] partes = escritura.getText().split("\\" + operando);
             if (partes.length < 2 || partes[1].trim().isEmpty()) {
                 resultado.setText("Error");
@@ -257,10 +296,47 @@ public class MarcoCalculadora extends JFrame {
             
             resultado.setText(String.valueOf(result).replace('.', ',')); 
         } catch (NumberFormatException e) {
-            resultado.setText("Entrada inválida"); 
+            resultado.setText("Entrada inválida");
         } catch (Exception e) {
-            resultado.setText("Error inesperado"); 
+            resultado.setText("Error inesperado");
+        }
+    }
+
+
+    private void updateMode() {
+        String selectedMode = (String) modeSelector.getSelectedItem();
+
+        switch (selectedMode) {
+            case "Solo ratón":
+                setMouseMode(true);
+                setKeyboardMode(false);
+                break;
+            case "Solo teclado":
+                setMouseMode(false);
+                setKeyboardMode(true);
+                break;
+            default: // "Modo libre"
+                setMouseMode(true);
+                setKeyboardMode(true);
+                break;
+        }
+    }
+
+    private void setMouseMode(boolean enabled) {
+        // Habilita/deshabilita los botones
+        for (Component component : panelNumeros.getComponents()) {
+            component.setEnabled(enabled);
+        }
+        for (Component component : panelOperadores.getComponents()) {
+            component.setEnabled(enabled);
+        }
+    }
+
+    private void setKeyboardMode(boolean enabled) {
+        // Habilita/deshabilita entrada del teclado
+        escritura.setFocusable(enabled);
+        if (enabled) {
+            escritura.requestFocus();
         }
     }
 }
-
